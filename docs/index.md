@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "Admin 组件库"
   text: "后台管理项目中的业务组件库文档"
-  tagline: My great project tagline
+  tagline: 希望通过这个文档，你能够快速的使用项目中的业务组件
   actions:
     - theme: brand
       text: Markdown Examples
