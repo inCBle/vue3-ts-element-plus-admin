@@ -17,6 +17,8 @@ export default defineConfig({
         items: [
           { text: "Markdown 示例", link: "/markdown-examples" },
           { text: "Runtime API 示例", link: "/api-examples" },
+          { text: "Pro Form", link: "/pro-form" },
+          { text: "Pro Table", link: "/pro-table" },
         ],
       },
     ],
