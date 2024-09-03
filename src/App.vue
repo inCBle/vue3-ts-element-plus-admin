@@ -1,85 +1,39 @@
 <script setup lang="ts">
-import { ProForm, IProFormItem } from "@/components/ProForm";
+import { onMounted, computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { ElConfigProvider } from "element-plus";
+import { useGlobalStore } from "@/stores/modules/global";
+import { getBrowserLang } from "@/utils";
+import en from "element-plus/es/locale/lang/en";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
 import { reactive } from "vue";
 
-const fields: IProFormItem[] = [
-  {
-    field: "name",
-    label: "用户名",
-    type: "input",
-    placeholder: "请输入用户名",
-    required: true,
-  },
-  {
-    field: "password",
-    label: "密码",
-    type: "password",
-    placeholder: "请输入密码",
-    required: true,
-  },
-  {
-    field: "sport",
-    label: "喜欢的运动",
-    placeholder: "请选择喜欢的运动",
-    type: "select",
-    options: [
-      { label: "篮球", value: "basketball" },
-      { label: "足球", value: "football" },
-      { label: "乒乓球", value: "pingpong" },
-    ],
-  },
-  {
-    field: "createTime",
-    label: "创建时间",
-    type: "datepicker",
-    placeholder: "请选择创建时间",
-    required: true,
-  },
-  {
-    field: "status",
-    label: "状态",
-    type: "radio",
-    options: [
-      { label: "启用", value: 1 },
-      { label: "禁用", value: 0 },
-    ],
-  },
-  {
-    field: "avatar",
-    label: "头像",
-    type: "upload",
-    placeholder: "请上传头像",
-    required: true,
-  },
-  {
-    type: "checkbox",
-    field: "agreement",
-    label: "同意协议",
-    required: true,
-  },
-  {
-    field: "description",
-    label: "描述",
-    type: "textarea",
-    placeholder: "请输入描述",
-    required: true,
-  },
-];
+const globalStore = useGlobalStore();
+const { locale } = useI18n();
 
-const model = reactive({
-  name: "",
-  password: "",
-  sport: "",
-  createTime: "",
-  status: "",
-  avatar: "",
-  agreement: "",
-  description: "",
+const elementLocal = computed(() => {
+  if (globalStore.language === "zh") return zhCn;
+  if (globalStore.language === "en") return en;
+  return getBrowserLang() === "zh" ? zhCn : en;
+});
+
+const assemblySize = computed(() => globalStore.assemblySize);
+
+const buttonConfig = reactive({ autoInsertSpace: true });
+
+onMounted(() => {
+  const language = globalStore.language ?? getBrowserLang();
+  locale.value = language;
+  globalStore.setGlobalState("language", language);
 });
 </script>
 
 <template>
-  <div class="bg-slate-50 shadow-xl p-8 rounded-lg">
-    <ProForm title="Formulario de registro" :model="model" :fields="fields" />
-  </div>
+  <ElConfigProvider
+    :locale="elementLocal"
+    :size="assemblySize"
+    :button="buttonConfig"
+  >
+    <router-view />
+  </ElConfigProvider>
 </template>

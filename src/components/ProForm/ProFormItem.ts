@@ -18,8 +18,9 @@ type IOptions = {
 export interface IProFormItem {
   field: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   type: IFormType;
-  options: IOptions[];
-  props: object;
+  options?: IOptions[];
+  props?: object;
+  required?: boolean;
 }
