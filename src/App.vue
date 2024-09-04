@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { onMounted, computed } from "vue";
+import { onMounted, computed, reactive } from "vue";
 import { useI18n } from "vue-i18n";
 import { ElConfigProvider } from "element-plus";
 import { useGlobalStore } from "@/stores/modules/global";
 import { getBrowserLang } from "@/utils";
+import { useTheme } from "@/hooks/useTheme";
 import en from "element-plus/es/locale/lang/en";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
-import { reactive } from "vue";
 
 const globalStore = useGlobalStore();
 const { locale } = useI18n();
+const { initTheme } = useTheme();
+initTheme();
 
 const elementLocal = computed(() => {
   if (globalStore.language === "zh") return zhCn;
@@ -29,11 +31,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <ElConfigProvider
-    :locale="elementLocal"
-    :size="assemblySize"
-    :button="buttonConfig"
-  >
+  <ElConfigProvider :locale="elementLocal" :size="assemblySize" :button="buttonConfig">
     <router-view />
   </ElConfigProvider>
 </template>

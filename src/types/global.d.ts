@@ -4,7 +4,7 @@ declare namespace Menu {
     name: string;
     component?: string | (() => Promise<unknown>);
     redirect?: string;
-    meta?: MetaOptions;
+    meta: MetaOptions;
     children?: MenuOptions[];
   }
 
@@ -19,3 +19,10 @@ declare namespace Menu {
     isKeepAlive: boolean;
   }
 }
+
+/* Vite */
+declare interface ViteEnv {
+  VITE_GLOB_APP_TITLE: string;
+}
+
+interface ImportMetaEnv extends ViteEnv {}
